@@ -36,7 +36,7 @@ public class SendMsgUtil {
                 +"，并于" +kexieRecruit.getInterviewTime()
                 +"来到7-115 "
                 +kexieRecruit.getInterviewPlace()
-                +"参与科协二面面试，如因个人原因需要调整时间请联系SIPC-赵沛文！";
+                +"参与科协二面面试，如因个人原因需要调整时间请联系SIPC-！";
         return sb;
     }
 }

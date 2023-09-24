@@ -5,21 +5,26 @@ import com.alibaba.excel.read.listener.ReadListener;
 import com.sipc.msgutil.entity.po.KexieRecruit;
 import com.sipc.msgutil.service.MsgService;
 import com.sipc.msgutil.util.SendMsgUtil;
+import lombok.extern.apachecommons.CommonsLog;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.xml.transform.sax.SAXResult;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 @Slf4j
 public class KexieRecruitUtil implements ReadListener<KexieRecruit> {
-    private static Map<String, String> msgMap = new HashMap<>();
+    private final String username;
+    private final String password;
+    private static final Map<String, String> msgMap = new HashMap<>();
 
-    private MsgService msgService;
+    private final MsgService msgService;
 
-    public KexieRecruitUtil(MsgService msgService) {
+    public KexieRecruitUtil(MsgService msgService, String username, String password) {
         this.msgService = msgService;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
@@ -32,7 +37,7 @@ public class KexieRecruitUtil implements ReadListener<KexieRecruit> {
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         log.info("所有数据解析完成！"+msgMap);
-        System.out.println(msgMap.size());
-        System.out.println(msgService.sendDiffMsg("suzuran", "9a70eeeefdb14695b67a6a5dea8b127b", msgMap));
+        log.info("map size: "+msgMap.size());
+        System.out.println(msgService.sendDiffMsg(username, password, msgMap));
     }
 }

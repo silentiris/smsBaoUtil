@@ -25,12 +25,12 @@ public class MsgServiceImpl implements MsgService {
         List<String> result = new ArrayList<>();
         log.info("numbers.size(): " + numbers.size());
         for (int i = 0; i < numbers.size(); i++) {
-            if (numArgs.size() == 90) {
+            if (numArgs.size() == 90) { // 一次最多发99条
                 result.add(SendMsgUtil.sendMsg(username, password, numArgs, msg));
                 numArgs.clear();
             }
             numArgs.add(numbers.get(i));
-            if (i == numbers.size() - 1 && numArgs.size() >= 1) {
+            if (i == numbers.size() - 1  ) {
                 result.add(SendMsgUtil.sendMsg(username, password, numArgs, msg));
             }
         }
@@ -51,9 +51,8 @@ public class MsgServiceImpl implements MsgService {
 
     @Override
     public List<String> sendDiffMsgByExcel(String username, String password, MultipartFile multipartFile) {
-        log.info("username: " + username + " password: " + password );
         try {
-            EasyExcel.read(multipartFile.getInputStream(),KexieRecruit.class,new KexieRecruitUtil(this)).sheet().doRead();
+            EasyExcel.read(multipartFile.getInputStream(),KexieRecruit.class,new KexieRecruitUtil(this,username,password)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }
